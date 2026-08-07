@@ -1,4 +1,4 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { createFileRoute, notFound, useParams } from "@tanstack/react-router";
 import { Clock } from "lucide-react";
 import { CartProvider } from "@/components/cart-context";
 import { SiteHeader } from "@/components/site-header";
@@ -97,7 +97,9 @@ export const Route = createFileRoute("/blog/$slug")({
 });
 
 function ArticlePage() {
-  const post = Route.useLoaderData();
+  const { slug } = useParams({ from: "/blog/$slug" });
+  const post = getPostBySlug(slug);
+  if (!post) return null;
   const category = getCategoryBySlug(post.categorySlug);
   const related = getRelatedPosts(post);
 

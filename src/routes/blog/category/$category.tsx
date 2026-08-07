@@ -1,4 +1,4 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { createFileRoute, notFound, useParams } from "@tanstack/react-router";
 import { CartProvider } from "@/components/cart-context";
 import { SiteHeader } from "@/components/site-header";
 import { CartPanel } from "@/components/cart-panel";
@@ -57,7 +57,10 @@ export const Route = createFileRoute("/blog/category/$category")({
 });
 
 function CategoryPage() {
-  const { category, posts } = Route.useLoaderData();
+  const { category: categorySlug } = useParams({ from: "/blog/category/$category" });
+  const category = getCategoryBySlug(categorySlug);
+  if (!category) return null;
+  const posts = getPostsByCategory(category.slug);
   const otherCategories = blogCategories.filter((c) => c.slug !== category.slug);
 
   return (
