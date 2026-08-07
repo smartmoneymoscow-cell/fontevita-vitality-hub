@@ -135,9 +135,9 @@ const authSteps = [
 ];
 
 const stats = [
-  { value: 11921, suffix: "+", label: "семей уже с нами" },
+  { value: 12000, suffix: "+", label: "семей уже с нами" },
   { value: 4.9, suffix: "", decimals: 1, label: "средняя оценка покупателей" },
-  { value: 99, suffix: "%", label: "партий с лабораторным протоколом" },
+  { value: 100, suffix: "%", label: "партий с лабораторным протоколом" },
 ];
 
 function AnimatedCounter({ value, suffix, decimals = 0 }: { value: number; suffix?: string; decimals?: number }) {
