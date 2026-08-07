@@ -33,3 +33,6 @@ dist-ssr
 fontevita-blog.patch
 screenshot.jpg
 screenshot*.jpg
+dist-ghpages/
+index.html
+vite.ghpages.config.ts
