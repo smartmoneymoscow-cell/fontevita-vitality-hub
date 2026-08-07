@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: |
           bun install
-          bun add react-router-dom
+          bun add react-router-dom@6
 
       - name: Create TanStack Router mock
         run: |
