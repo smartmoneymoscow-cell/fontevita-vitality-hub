@@ -143,9 +143,8 @@
 }
 
 /* Chat widget positioning fix */
-#replain_widget,
-#replain_widget_iframe,
-#replain_widget_iframe_embedded {
+#__replain_widget,
+#__replain_widget_iframe {
   position: fixed !important;
   bottom: 20px !important;
   right: 20px !important;

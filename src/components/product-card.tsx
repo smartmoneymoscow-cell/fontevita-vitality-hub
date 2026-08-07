@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { ChevronDown, ShoppingBag, Check, Minus, Plus } from "lucide-react";
 import { useCart } from "@/components/cart-context";
 import { formatPrice, type Product } from "@/data/products";
@@ -180,7 +180,7 @@ export function ProductCard({ product }: { product: Product }) {
           ) : (
             <button
               onClick={handleAdd}
-              className="cta-lift flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-extrabold text-primary-foreground shadow-soft hover:bg-leaf hover:text-white"
+              className="cta-lift flex h-[3.125rem] w-[9.25rem] shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-sm font-extrabold text-primary-foreground shadow-soft sm:w-[9.5rem] hover:bg-leaf hover:text-white"
             >
               <ShoppingBag className="h-4 w-4" />
               В корзину
