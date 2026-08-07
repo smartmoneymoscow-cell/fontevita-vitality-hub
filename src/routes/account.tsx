@@ -6,6 +6,7 @@ import {
   MapPin,
   Phone,
   Mail,
+  Lock,
   Edit3,
   Check,
   Clock,
@@ -286,20 +287,70 @@ function AccountPage() {
         <div className="min-h-dvh overflow-x-hidden">
           <SiteHeader />
           <CartPanel />
-          <main className="mx-auto flex w-full max-w-6xl flex-col items-center justify-center px-4 py-20 text-center sm:px-6">
+          <main className="mx-auto flex w-full max-w-md flex-col items-center justify-center px-4 py-20 text-center sm:px-6">
             <div className="flex h-20 w-20 items-center justify-center rounded-full bg-sun-soft">
               <User className="h-10 w-10 text-foreground" />
             </div>
-            <h1 className="mt-6 text-3xl font-bold sm:text-4xl">Личный кабинет</h1>
+            <h1 className="mt-6 text-3xl font-bold sm:text-4xl">Вход в кабинет</h1>
             <p className="mt-3 max-w-md text-base leading-relaxed text-muted-foreground">
-              Войдите, чтобы видеть свои заказы и управлять личными данными.
+              Войдите, чтобы видеть заказы и личные данные.
             </p>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                try { localStorage.setItem("fontevita-authed", "1"); } catch {}
+                setIsAuthed(true);
+              }}
+              className="mt-8 w-full space-y-4"
+            >
+              <div className="text-left">
+                <label className="flex items-center gap-2 text-sm font-bold">
+                  <Mail className="h-4 w-4" />
+                  Email
+                </label>
+                <input
+                  type="email"
+                  placeholder="ivan@example.com"
+                  autoComplete="email"
+                  className="mt-1.5 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20"
+                />
+              </div>
+              <div className="text-left">
+                <label className="flex items-center gap-2 text-sm font-bold">
+                  <Lock className="h-4 w-4" />
+                  Пароль
+                </label>
+                <input
+                  type="password"
+                  placeholder="••••••••"
+                  autoComplete="current-password"
+                  className="mt-1.5 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20"
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full rounded-full bg-primary px-7 py-3.5 text-sm font-extrabold text-primary-foreground shadow-soft transition-all duration-300 hover:scale-105 hover:brightness-110 active:scale-95"
+              >
+                Войти
+              </button>
+              <p className="text-sm text-muted-foreground">
+                <button type="button" className="underline transition-colors hover:text-foreground">
+                  Забыли пароль?
+                </button>
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Нет аккаунта?{" "}
+                <button type="button" className="font-bold underline transition-colors hover:text-foreground">
+                  Зарегистрироваться
+                </button>
+              </p>
+            </form>
             <Link
               to="/"
-              className="mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-extrabold text-primary-foreground shadow-soft transition-all duration-300 hover:scale-105 hover:brightness-110 active:scale-95"
+              className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-muted-foreground transition-colors hover:text-foreground"
             >
               <ArrowLeft className="h-4 w-4" />
-              На главную — войти через шапку
+              На главную
             </Link>
           </main>
           <SiteFooter />

@@ -210,13 +210,13 @@ function Index() {
                 <div className="mt-7 flex flex-wrap items-center justify-center gap-3 md:justify-start">
                   <a
                     href="#products"
-                    className="rounded-full bg-primary px-7 py-3.5 text-sm font-extrabold text-primary-foreground shadow-soft transition-all duration-300 hover:scale-105 hover:shadow-lift hover:brightness-110 active:scale-95 active:brightness-95"
+                    className="cta-lift rounded-full bg-primary px-7 py-3.5 text-sm font-extrabold text-primary-foreground shadow-soft"
                   >
                     Выбрать продукт
                   </a>
                   <a
                     href="#quiz"
-                    className="rounded-full border-2 border-border px-7 py-3 text-sm font-extrabold transition-all duration-300 hover:scale-105 hover:border-primary hover:bg-sun-soft hover:shadow-soft active:scale-95"
+                    className="cta-lift rounded-full border-2 border-border px-7 py-3 text-sm font-extrabold hover:border-primary hover:bg-sun-soft"
                   >
                     Подобрать за 30 секунд
                   </a>
@@ -411,7 +411,7 @@ function Index() {
                   </ul>
                   <a
                     href="#products"
-                    className="mt-7 inline-block rounded-full bg-card px-7 py-3.5 text-sm font-extrabold shadow-soft transition-all duration-300 hover:scale-105 hover:shadow-lift hover:brightness-110 active:scale-95 active:brightness-95"
+                    className="cta-lift mt-7 inline-block rounded-full bg-card px-7 py-3.5 text-sm font-extrabold shadow-soft"
                   >
                     Собрать комплекс
                   </a>
