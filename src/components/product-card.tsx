@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { ChevronDown, ShoppingBag, Check, Minus, Plus } from "lucide-react";
 import { useCart } from "@/components/cart-context";
 import { formatPrice, type Product } from "@/data/products";
@@ -12,9 +12,7 @@ const tint: Record<Product["accent"], string> = {
 export function ProductCard({ product }: { product: Product }) {
   const { lines, add, inc, dec, setOpen } = useCart();
   const [expanded, setExpanded] = useState(false);
-  const [flying, setFlying] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
-  const [fly, setFly] = useState({ x: 0, y: 0, left: 0, top: 0, w: 0, h: 0 });
 
   const line = lines.find((l) => l.product.id === product.id);
   const qty = line?.qty ?? 0;
@@ -22,26 +20,36 @@ export function ProductCard({ product }: { product: Product }) {
   const triggerFly = () => {
     const img = imgRef.current;
     const target = document.getElementById("cart-button");
-    if (img && target) {
-      // Temporarily remove float animation to get stable position
-      const prevAnim = img.style.animation;
-      img.style.animation = "none";
-      // Force reflow
-      void img.offsetHeight;
-      const a = img.getBoundingClientRect();
-      img.style.animation = prevAnim;
-      const b = target.getBoundingClientRect();
-      setFly({
-        left: a.left,
-        top: a.top,
-        w: a.width,
-        h: a.height,
-        x: b.left + b.width / 2 - (a.left + a.width / 2),
-        y: b.top + b.height / 2 - (a.top + a.height / 2),
-      });
-      setFlying(true);
-      setTimeout(() => setFlying(false), 750);
-    }
+    if (!img || !target) return;
+
+    // Temporarily remove float animation for stable position
+    const prevAnim = img.style.animation;
+    img.style.animation = "none";
+    void img.offsetHeight;
+    const a = img.getBoundingClientRect();
+    img.style.animation = prevAnim;
+    const b = target.getBoundingClientRect();
+
+    // Create flying image directly on body (escapes overflow:hidden)
+    const flyer = document.createElement("img");
+    flyer.src = product.image;
+    flyer.alt = "";
+    flyer.setAttribute("aria-hidden", "true");
+    Object.assign(flyer.style, {
+      position: "fixed",
+      left: a.left + "px",
+      top: a.top + "px",
+      width: a.width + "px",
+      height: a.height + "px",
+      zIndex: "9999",
+      pointerEvents: "none",
+      objectFit: "contain",
+      "--fly-x": (b.left + b.width / 2 - (a.left + a.width / 2)) + "px",
+      "--fly-y": (b.top + b.height / 2 - (a.top + a.height / 2)) + "px",
+      animation: "fly-to-cart 0.7s cubic-bezier(0.5,0,0.75,0) forwards",
+    } as any);
+    document.body.appendChild(flyer);
+    setTimeout(() => flyer.remove(), 750);
   };
 
   const handleAdd = () => {
@@ -181,25 +189,6 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
       </div>
 
-      {flying && (
-        <img
-          src={product.image}
-          alt=""
-          aria-hidden
-          className="pointer-events-none fixed z-[60] object-contain"
-          style={
-            {
-              left: fly.left,
-              top: fly.top,
-              width: fly.w,
-              height: fly.h,
-              "--fly-x": `${fly.x}px`,
-              "--fly-y": `${fly.y}px`,
-              animation: "fly-to-cart 0.7s cubic-bezier(0.5,0,0.75,0) forwards",
-            } as React.CSSProperties
-          }
-        />
-      )}
     </article>
   );
 }
