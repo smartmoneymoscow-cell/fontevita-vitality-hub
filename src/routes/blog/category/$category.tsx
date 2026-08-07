@@ -57,7 +57,7 @@ export const Route = createFileRoute("/blog/category/$category")({
 });
 
 function getCategoryFromPath(): string {
-  const parts = window.location.pathname.split("/");
+  const parts = window.location.pathname.split("/").filter(Boolean);
   return parts[parts.length - 1] || "";
 }
 
@@ -71,7 +71,7 @@ function CategoryPage() {
 
   return (
     <CartProvider>
-    <div className="min-h-dvh overflow-x-hidden">
+    <div className="min-h-dvh">
       <SiteHeader />
       <CartPanel />
 

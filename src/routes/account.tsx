@@ -284,7 +284,7 @@ function AccountPage() {
   if (!isAuthed) {
     return (
       <CartProvider>
-        <div className="min-h-dvh overflow-x-hidden">
+        <div className="min-h-dvh">
           <SiteHeader />
           <CartPanel />
           <main className="mx-auto flex w-full max-w-md flex-col items-center justify-center px-4 py-20 text-center sm:px-6">
@@ -361,7 +361,7 @@ function AccountPage() {
 
   return (
     <CartProvider>
-      <div className="min-h-dvh overflow-x-hidden">
+      <div className="min-h-dvh">
         <SiteHeader />
         <CartPanel />
 

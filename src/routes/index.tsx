@@ -180,7 +180,7 @@ function AnimatedCounter({ value, suffix, decimals = 0 }: { value: number; suffi
 function Index() {
   return (
     <CartProvider>
-      <div id="top" className="min-h-dvh overflow-x-hidden pb-20">
+      <div id="top" className="min-h-dvh pb-20">
         <SiteHeader />
         <CartPanel />
 

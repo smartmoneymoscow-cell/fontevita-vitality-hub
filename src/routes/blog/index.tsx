@@ -157,7 +157,7 @@ function BlogIndex() {
 
   return (
     <CartProvider>
-    <div className="min-h-dvh overflow-x-hidden">
+    <div className="min-h-dvh">
       <SiteHeader />
       <CartPanel />
 
