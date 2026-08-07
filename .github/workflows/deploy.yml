@@ -388,6 +388,42 @@ jobs:
           # Copy 404.html for SPA fallback
           cp dist-ghpages/index.html dist-ghpages/404.html
 
+          # Create static HTML files for every blog route so GitHub Pages
+          # returns 200 instead of 404 when someone visits them directly.
+          # The SPA takes over once loaded and renders the correct content.
+          BLOG_SLUGS=(
+            kollagen-dlya-chego-nuzhen-i-kak-prinimat
+            magniy-v6-dlya-chego-nuzhen-kogda-pit
+            omega-3-polza-i-vred-kak-vybrat
+            sovmestimost-kollagen-magniy-omega-3
+            kogda-nachinayut-deystvovat-vitaminy
+            bad-ili-lekarstvo-v-chem-raznitsa
+            kak-proverit-chestny-znak
+            kak-vybrat-vitaminy-i-bady
+            pochemu-nam-nuzhna-omega-3
+          )
+          CATEGORY_SLUGS=(kollagen magniy omega-3 guide)
+
+          # /blog/ index
+          mkdir -p dist-ghpages/blog
+          cp dist-ghpages/index.html dist-ghpages/blog/index.html
+
+          # /blog/<slug>
+          for slug in "${BLOG_SLUGS[@]}"; do
+            mkdir -p "dist-ghpages/blog/${slug}"
+            cp dist-ghpages/index.html "dist-ghpages/blog/${slug}/index.html"
+          done
+
+          # /blog/category/<slug>
+          for slug in "${CATEGORY_SLUGS[@]}"; do
+            mkdir -p "dist-ghpages/blog/category/${slug}"
+            cp dist-ghpages/index.html "dist-ghpages/blog/category/${slug}/index.html"
+          done
+
+          # /account
+          mkdir -p dist-ghpages/account
+          cp dist-ghpages/index.html dist-ghpages/account/index.html
+
       - uses: actions/setup-node@v4
         with:
           node-version: 22
