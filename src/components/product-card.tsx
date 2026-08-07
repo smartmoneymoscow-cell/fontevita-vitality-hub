@@ -23,10 +23,13 @@ export function ProductCard({ product }: { product: Product }) {
     const img = imgRef.current;
     const target = document.getElementById("cart-button");
     if (img && target) {
-      // Pause float animation to get stable position
-      img.style.animationPlayState = "paused";
+      // Temporarily remove float animation to get stable position
+      const prevAnim = img.style.animation;
+      img.style.animation = "none";
+      // Force reflow
+      void img.offsetHeight;
       const a = img.getBoundingClientRect();
-      img.style.animationPlayState = "";
+      img.style.animation = prevAnim;
       const b = target.getBoundingClientRect();
       setFly({
         left: a.left,
