@@ -98,18 +98,10 @@
     letter-spacing: -0.01em;
   }
 
-  /* Global button hover/active */
+  /* Base interaction — component utilities define visual hover states. */
   button {
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  button:hover:not(:disabled) {
-    filter: brightness(0.92);
-  }
-  button:active:not(:disabled) {
-    transform: scale(0.97);
-    background-color: var(--leaf) !important;
-    color: white !important;
   }
 
   /* Global link hover */
@@ -124,31 +116,6 @@
   nav a:hover {
     color: var(--primary) !important;
   }
-}
-
-@utility cta-lift {
-  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.3s,
-    filter 0.3s,
-    border-color 0.3s,
-    background-color 0.3s;
-  &:hover {
-    box-shadow: var(--shadow-lift);
-    filter: brightness(1.06);
-    transform: translateY(-2px) scale(1.03);
-  }
-  &:active {
-    transform: scale(0.96);
-  }
-}
-
-/* Chat widget positioning fix */
-#__replain_widget,
-#__replain_widget_iframe {
-  position: fixed !important;
-  bottom: 20px !important;
-  right: 20px !important;
-  z-index: 9999 !important;
 }
 
 @utility sun-blob {
@@ -189,6 +156,33 @@
     transform: none;
     box-shadow: var(--shadow-lift);
     border-color: color-mix(in oklab, var(--primary) 30%, transparent);
+  }
+}
+
+@utility cta-lift {
+  transition:
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s ease,
+    filter 0.3s ease,
+    border-color 0.3s ease,
+    background-color 0.3s ease;
+  &:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: var(--shadow-lift);
+    filter: brightness(1.06);
+  }
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta-lift,
+  .soft-card,
+  .animate-float-soft,
+  .animate-rise-in {
+    animation: none;
+    transition-duration: 0.01ms;
   }
 }
 

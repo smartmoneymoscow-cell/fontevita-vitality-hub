@@ -188,14 +188,14 @@ export function Quiz() {
                     results.forEach((p) => add(p.id));
                     setOpen(true);
                   }}
-                  className="rounded-full bg-primary px-6 py-3.5 text-sm font-extrabold text-primary-foreground shadow-soft transition-all duration-300 hover:brightness-110 hover:shadow-lift active:scale-95"
+                  className="cta-lift rounded-full bg-primary px-6 py-3.5 text-sm font-extrabold text-primary-foreground shadow-soft"
                 >
                   {results.length === 1 ? "Добавить в корзину" : "Добавить всё в корзину"} ·{" "}
                   {formatPrice(total)}
                 </button>
                 <button
                   onClick={reset}
-                  className="flex items-center gap-2 rounded-full border-2 border-border px-5 py-3 text-sm font-extrabold transition-all duration-300 hover:bg-secondary hover:border-foreground/20 active:scale-95"
+                  className="cta-lift flex items-center gap-2 rounded-full border-2 border-border px-5 py-3 text-sm font-extrabold hover:border-foreground/20 hover:bg-secondary"
                 >
                   <RotateCcw className="h-4 w-4" />
                   Пройти заново

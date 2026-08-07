@@ -1,4 +1,4 @@
-import { createFileRoute, notFound, useLocation } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 import { CartProvider } from "@/components/cart-context";
 import { SiteHeader } from "@/components/site-header";
 import { CartPanel } from "@/components/cart-panel";
@@ -56,22 +56,13 @@ export const Route = createFileRoute("/blog/category/$category")({
   },
 });
 
-function getCategoryFromPath(): string {
-  const parts = window.location.pathname.split("/").filter(Boolean);
-  return parts[parts.length - 1] || "";
-}
-
 function CategoryPage() {
-  const location = useLocation();
-  const categorySlug = getCategoryFromPath();
-  const category = getCategoryBySlug(categorySlug);
-  if (!category) return null;
-  const posts = getPostsByCategory(category.slug);
+  const { category, posts } = Route.useLoaderData();
   const otherCategories = blogCategories.filter((c) => c.slug !== category.slug);
 
   return (
     <CartProvider>
-    <div className="min-h-dvh">
+    <div className="min-h-dvh overflow-x-hidden">
       <SiteHeader />
       <CartPanel />
 

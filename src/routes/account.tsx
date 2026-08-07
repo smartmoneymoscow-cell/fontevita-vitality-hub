@@ -6,8 +6,8 @@ import {
   MapPin,
   Phone,
   Mail,
-  Lock,
   Edit3,
+  Lock,
   Check,
   Clock,
   Truck,
@@ -240,7 +240,7 @@ function ProfileEditor() {
       <div className="flex items-center gap-3">
         <button
           type="submit"
-          className="flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-extrabold text-primary-foreground shadow-soft transition-all duration-300 hover:brightness-105 active:scale-95"
+          className="cta-lift flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-extrabold text-primary-foreground shadow-soft"
         >
           <Check className="h-4 w-4" />
           Сохранить
@@ -253,6 +253,197 @@ function ProfileEditor() {
         )}
       </div>
     </form>
+  );
+}
+
+
+/* ─── Auth (login / register / reset) ─── */
+type AuthMode = "login" | "register" | "reset";
+
+function AuthScreen({ onAuthed }: { onAuthed: () => void }) {
+  const [mode, setMode] = useState<AuthMode>("login");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [error, setError] = useState("");
+  const [sent, setSent] = useState(false);
+
+  const inputCls =
+    "mt-1.5 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20";
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    if (mode === "reset") {
+      if (!email.includes("@")) return setError("Введите корректный email");
+      setSent(true);
+      return;
+    }
+
+    if (!email.includes("@")) return setError("Введите корректный email");
+    if (password.length < 6) return setError("Пароль должен быть не короче 6 символов");
+    if (mode === "register" && name.trim().length < 2) return setError("Укажите имя");
+
+    try {
+      localStorage.setItem("fontevita-authed", "1");
+      const raw = localStorage.getItem("fontevita-profile");
+      const profile = raw ? JSON.parse(raw) : {};
+      localStorage.setItem(
+        "fontevita-profile",
+        JSON.stringify({ ...profile, email, ...(mode === "register" ? { name } : {}) }),
+      );
+    } catch {}
+    onAuthed();
+  };
+
+  return (
+    <div className="soft-card no-lift w-full max-w-md p-6 text-left sm:p-8">
+      <div className="flex flex-col items-center text-center">
+        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-sun-soft">
+          <User className="h-8 w-8 text-foreground" />
+        </div>
+        <h1 className="mt-4 text-2xl font-bold sm:text-3xl">
+          {mode === "login" ? "Вход в кабинет" : mode === "register" ? "Регистрация" : "Восстановление пароля"}
+        </h1>
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          {mode === "login"
+            ? "Войдите, чтобы видеть заказы и личные данные."
+            : mode === "register"
+              ? "Создайте аккаунт — это займёт минуту."
+              : "Пришлём ссылку для смены пароля на почту."}
+        </p>
+      </div>
+
+      {mode === "reset" && sent ? (
+        <div className="mt-6 space-y-5 text-center">
+          <div className="rounded-2xl bg-leaf/10 p-5 text-sm leading-relaxed text-foreground">
+            Если аккаунт с адресом <span className="font-bold">{email}</span> существует, мы отправили
+            письмо со ссылкой для восстановления пароля.
+          </div>
+          <button
+            onClick={() => {
+              setSent(false);
+              setMode("login");
+            }}
+            className="cta-lift w-full rounded-full bg-primary px-6 py-3.5 text-sm font-extrabold text-primary-foreground shadow-soft"
+          >
+            Вернуться ко входу
+          </button>
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+          {mode === "register" && (
+            <div>
+              <label className="flex items-center gap-2 text-sm font-bold" htmlFor="auth-name">
+                <User className="h-4 w-4" />
+                Имя
+              </label>
+              <input
+                id="auth-name"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Иван Иванов"
+                autoComplete="name"
+                className={inputCls}
+              />
+            </div>
+          )}
+
+          <div>
+            <label className="flex items-center gap-2 text-sm font-bold" htmlFor="auth-email">
+              <Mail className="h-4 w-4" />
+              Email
+            </label>
+            <input
+              id="auth-email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@mail.ru"
+              autoComplete="email"
+              className={inputCls}
+            />
+          </div>
+
+          {mode !== "reset" && (
+            <div>
+              <label className="flex items-center gap-2 text-sm font-bold" htmlFor="auth-password">
+                <Lock className="h-4 w-4" />
+                Пароль
+              </label>
+              <input
+                id="auth-password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Минимум 6 символов"
+                autoComplete={mode === "login" ? "current-password" : "new-password"}
+                className={inputCls}
+              />
+            </div>
+          )}
+
+          {error && <p className="text-sm font-bold text-destructive">{error}</p>}
+
+          <button
+            type="submit"
+            className="cta-lift w-full rounded-full bg-primary px-6 py-3.5 text-sm font-extrabold text-primary-foreground shadow-soft"
+          >
+            {mode === "login" ? "Войти" : mode === "register" ? "Создать аккаунт" : "Отправить ссылку"}
+          </button>
+        </form>
+      )}
+
+      <div className="mt-5 space-y-2 text-center text-sm">
+        {mode === "login" && (
+          <>
+            <button
+              onClick={() => {
+                setMode("reset");
+                setError("");
+              }}
+              className="font-bold text-muted-foreground underline-offset-4 transition-colors hover:text-primary hover:underline"
+            >
+              Забыли пароль?
+            </button>
+            <p className="text-muted-foreground">
+              Нет аккаунта?{" "}
+              <button
+                onClick={() => {
+                  setMode("register");
+                  setError("");
+                }}
+                className="font-bold text-primary underline-offset-4 transition-colors hover:underline"
+              >
+                Зарегистрироваться
+              </button>
+            </p>
+          </>
+        )}
+        {mode !== "login" && (
+          <button
+            onClick={() => {
+              setMode("login");
+              setError("");
+              setSent(false);
+            }}
+            className="font-bold text-primary underline-offset-4 transition-colors hover:underline"
+          >
+            Вернуться ко входу
+          </button>
+        )}
+      </div>
+
+      <Link
+        to="/"
+        className="mt-6 flex items-center justify-center gap-2 text-sm font-bold text-muted-foreground transition-colors hover:text-foreground"
+      >
+        <ArrowLeft className="h-4 w-4" />
+        На главную
+      </Link>
+    </div>
   );
 }
 
@@ -284,74 +475,11 @@ function AccountPage() {
   if (!isAuthed) {
     return (
       <CartProvider>
-        <div className="min-h-dvh">
+        <div className="min-h-dvh overflow-x-hidden bg-gradient-to-b from-sand via-background to-background">
           <SiteHeader />
           <CartPanel />
-          <main className="mx-auto flex w-full max-w-md flex-col items-center justify-center px-4 py-20 text-center sm:px-6">
-            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-sun-soft">
-              <User className="h-10 w-10 text-foreground" />
-            </div>
-            <h1 className="mt-6 text-3xl font-bold sm:text-4xl">Вход в кабинет</h1>
-            <p className="mt-3 max-w-md text-base leading-relaxed text-muted-foreground">
-              Войдите, чтобы видеть заказы и личные данные.
-            </p>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                try { localStorage.setItem("fontevita-authed", "1"); } catch {}
-                setIsAuthed(true);
-              }}
-              className="mt-8 w-full space-y-4"
-            >
-              <div className="text-left">
-                <label className="flex items-center gap-2 text-sm font-bold">
-                  <Mail className="h-4 w-4" />
-                  Email
-                </label>
-                <input
-                  type="email"
-                  placeholder="ivan@example.com"
-                  autoComplete="email"
-                  className="mt-1.5 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20"
-                />
-              </div>
-              <div className="text-left">
-                <label className="flex items-center gap-2 text-sm font-bold">
-                  <Lock className="h-4 w-4" />
-                  Пароль
-                </label>
-                <input
-                  type="password"
-                  placeholder="••••••••"
-                  autoComplete="current-password"
-                  className="mt-1.5 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20"
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full rounded-full bg-primary px-7 py-3.5 text-sm font-extrabold text-primary-foreground shadow-soft transition-all duration-300 hover:scale-105 hover:brightness-110 active:scale-95"
-              >
-                Войти
-              </button>
-              <p className="text-sm text-muted-foreground">
-                <button type="button" className="underline transition-colors hover:text-foreground">
-                  Забыли пароль?
-                </button>
-              </p>
-              <p className="text-sm text-muted-foreground">
-                Нет аккаунта?{" "}
-                <button type="button" className="font-bold underline transition-colors hover:text-foreground">
-                  Зарегистрироваться
-                </button>
-              </p>
-            </form>
-            <Link
-              to="/"
-              className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-muted-foreground transition-colors hover:text-foreground"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              На главную
-            </Link>
+          <main className="mx-auto flex w-full max-w-6xl flex-col items-center justify-center px-4 py-14 sm:px-6 sm:py-20">
+            <AuthScreen onAuthed={() => setIsAuthed(true)} />
           </main>
           <SiteFooter />
         </div>
@@ -361,7 +489,7 @@ function AccountPage() {
 
   return (
     <CartProvider>
-      <div className="min-h-dvh">
+      <div className="min-h-dvh overflow-x-hidden">
         <SiteHeader />
         <CartPanel />
 
@@ -443,7 +571,7 @@ function AccountPage() {
                   </p>
                   <Link
                     to="/"
-                    className="mt-2 rounded-full bg-primary px-6 py-3 text-sm font-extrabold text-primary-foreground shadow-soft transition-all hover:brightness-105 active:scale-95"
+                    className="cta-lift mt-2 rounded-full bg-primary px-6 py-3 text-sm font-extrabold text-primary-foreground shadow-soft"
                   >
                     Перейти к продуктам
                   </Link>

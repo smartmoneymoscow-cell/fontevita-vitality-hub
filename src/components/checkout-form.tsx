@@ -144,14 +144,14 @@ export function CheckoutForm({ onBack }: { onBack: () => void }) {
         <div className="flex gap-3">
           <button
             onClick={handleCopy}
-            className="flex items-center gap-2 rounded-full border-2 border-border px-5 py-2.5 text-sm font-bold transition-colors hover:bg-secondary"
+            className="cta-lift flex items-center gap-2 rounded-full border-2 border-border px-5 py-2.5 text-sm font-bold hover:bg-secondary"
           >
             {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
             {copied ? "Скопировано" : "Копировать"}
           </button>
           <button
             onClick={onBack}
-            className="flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-extrabold text-primary-foreground shadow-soft transition-all hover:brightness-105"
+            className="cta-lift flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-extrabold text-primary-foreground shadow-soft"
           >
             <ArrowLeft className="h-4 w-4" />
             Продолжить покупки
@@ -314,7 +314,7 @@ export function CheckoutForm({ onBack }: { onBack: () => void }) {
         <button
           type="submit"
           disabled={submitting || lines.length === 0}
-          className="flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-extrabold text-primary-foreground shadow-soft transition-all duration-300 hover:brightness-105 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40"
+          className="cta-lift flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-extrabold text-primary-foreground shadow-soft disabled:cursor-not-allowed disabled:opacity-40"
         >
           {submitting ? (
             <>

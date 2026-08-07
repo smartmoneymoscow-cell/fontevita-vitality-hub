@@ -1,4 +1,4 @@
-import { createFileRoute, notFound, useLocation } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 import { Clock } from "lucide-react";
 import { CartProvider } from "@/components/cart-context";
 import { SiteHeader } from "@/components/site-header";
@@ -96,16 +96,8 @@ export const Route = createFileRoute("/blog/$slug")({
   },
 });
 
-function getSlugFromPath(): string {
-  const parts = window.location.pathname.split("/").filter(Boolean);
-  return parts[parts.length - 1] || "";
-}
-
 function ArticlePage() {
-  const location = useLocation();
-  const slug = getSlugFromPath();
-  const post = getPostBySlug(slug);
-  if (!post) return null;
+  const post = Route.useLoaderData();
   const category = getCategoryBySlug(post.categorySlug);
   const related = getRelatedPosts(post);
 
@@ -113,7 +105,7 @@ function ArticlePage() {
 
   return (
     <CartProvider>
-    <div className="min-h-dvh">
+    <div className="min-h-dvh overflow-x-hidden">
       <SiteHeader />
       <CartPanel />
 

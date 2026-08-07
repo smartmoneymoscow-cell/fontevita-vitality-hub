@@ -38,8 +38,8 @@ function BottleImg({
         loaded ? "opacity-100" : "opacity-0"
       } ${
         isFront
-          ? "drop-shadow-[0_46px_46px_rgba(60,70,90,0.26)]"
-          : "drop-shadow-[0_28px_34px_rgba(60,70,90,0.16)]"
+          ? "drop-shadow-[0_18px_22px_rgba(60,70,90,0.16)]"
+          : "drop-shadow-[0_12px_16px_rgba(60,70,90,0.10)]"
       }`}
       loading="eager"
       decoding="async"

@@ -180,7 +180,7 @@ function AnimatedCounter({ value, suffix, decimals = 0 }: { value: number; suffi
 function Index() {
   return (
     <CartProvider>
-      <div id="top" className="min-h-dvh pb-20">
+      <div id="top" className="min-h-dvh overflow-x-hidden pb-20">
         <SiteHeader />
         <CartPanel />
 
@@ -276,9 +276,9 @@ function Index() {
                   </p>
                 </div>
               </Reveal>
-              <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <div className="-mx-4 mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:grid-cols-2 md:gap-6 md:overflow-visible md:px-0 md:pb-0 lg:grid-cols-3">
                 {products.map((p, i) => (
-                  <Reveal key={p.id} delay={i * 110} className="h-full">
+                  <Reveal key={p.id} delay={i * 110} className="h-auto w-[88%] shrink-0 snap-center sm:w-[72%] md:h-full md:w-auto">
                     <ProductCard product={p} />
                   </Reveal>
                 ))}

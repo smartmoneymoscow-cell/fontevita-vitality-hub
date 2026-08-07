@@ -61,7 +61,7 @@ export function BlogHeader() {
 
         <a
           href={`${base}#products`}
-          className="flex items-center gap-2 rounded-full bg-primary px-4 py-2.5 text-sm font-extrabold text-primary-foreground shadow-soft transition-all duration-300 hover:brightness-105 active:scale-95"
+          className="cta-lift flex items-center gap-2 rounded-full bg-primary px-4 py-2.5 text-sm font-extrabold text-primary-foreground shadow-soft"
         >
           <ShoppingBag className="h-4 w-4" />
           <span className="hidden sm:inline">Корзина</span>

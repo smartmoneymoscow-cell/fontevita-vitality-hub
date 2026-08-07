@@ -132,7 +132,7 @@ export function CartPanel() {
               <button
                 onClick={() => setView("checkout")}
                 disabled={lines.length === 0}
-                className="w-full rounded-full bg-primary px-6 py-3.5 text-sm font-extrabold text-primary-foreground shadow-soft transition-all duration-300 hover:brightness-105 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40"
+                className="cta-lift w-full rounded-full bg-primary px-6 py-3.5 text-sm font-extrabold text-primary-foreground shadow-soft disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Оформить заказ
               </button>

@@ -42,11 +42,11 @@ export function Reviews() {
 
   return (
     <div className="space-y-8">
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:grid-cols-2 md:gap-6 md:overflow-visible md:px-0 md:pb-0">
         {defaultReviews.map((r) => (
           <figure
             key={r.name + r.product}
-            className="soft-card flex h-full flex-col gap-4 p-6 sm:p-7"
+            className="soft-card flex h-auto w-[86%] shrink-0 snap-center flex-col gap-4 p-6 sm:w-[72%] sm:p-7 md:w-auto"
           >
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
