@@ -5,7 +5,7 @@ const base = import.meta.env.BASE_URL;
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-border bg-sand py-10">
+    <footer className="bg-sand py-10">
       <div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-4 px-4 text-center sm:px-6 md:flex-row md:justify-between md:text-left">
         <Link to="/" className="shrink-0" aria-label="FonteVita — на главную">
           <img src={logo.url} alt="FonteVita" className="h-12 w-auto object-contain" loading="lazy" />

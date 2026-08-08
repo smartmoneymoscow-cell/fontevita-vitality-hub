@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { ChevronDown, ShoppingBag, Check, Minus, Plus } from "lucide-react";
 import { useCart } from "@/components/cart-context";
 import { formatPrice, type Product } from "@/data/products";
@@ -183,7 +184,7 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
       </div>
 
-      {flying && (
+      {flying && createPortal(
         <img
           src={product.image}
           alt=""
@@ -200,7 +201,8 @@ export function ProductCard({ product }: { product: Product }) {
               animation: "fly-to-cart 0.7s cubic-bezier(0.5,0,0.75,0) forwards",
             } as React.CSSProperties
           }
-        />
+        />,
+        document.body
       )}
     </article>
   );

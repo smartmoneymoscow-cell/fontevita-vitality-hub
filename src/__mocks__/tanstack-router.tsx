@@ -82,27 +82,51 @@ export const HeadContent = () => null;
 export const Scripts = () => null;
 export { useParams, useNavigate, useSearchParams, useLocation };
 
+/* ---------- error boundary ---------- */
+class ErrorBoundary extends React.Component<
+  { children: React.ReactNode },
+  { hasError: boolean }
+> {
+  state = { hasError: false };
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ padding: 40, textAlign: "center" }}>
+          <p style={{ fontSize: 18, fontWeight: 700 }}>Что-то пошло не так</p>
+          <p style={{ marginTop: 8, color: "#888" }}>Попробуйте обновить страницу</p>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 /* ---------- router component for App.tsx ---------- */
 export function MockRouter() {
   const { pathname } = useLocation();
   const result = matchRoute(pathname);
   const [loaderData, setLoaderData] = React.useState<any>(undefined);
   const [ready, setReady] = React.useState(false);
+  const [loadError, setLoadError] = React.useState(false);
 
   React.useEffect(() => {
     let cancelled = false;
     setReady(false);
+    setLoadError(false);
     if (!result) return;
     const cfg = routeConfigs[result.key];
     if (cfg?.loader) {
       try {
         const r = cfg.loader({ params: result.params });
         if (r && typeof r.then === "function") {
-          r.then((data: any) => { if (!cancelled) { setLoaderData(data); setReady(true); } }).catch(() => { if (!cancelled) setReady(true); });
+          r.then((data: any) => { if (!cancelled) { setLoaderData(data); setReady(true); } }).catch(() => { if (!cancelled) { setLoadError(true); setReady(true); } });
         } else {
           if (!cancelled) { setLoaderData(r); setReady(true); }
         }
-      } catch { if (!cancelled) setReady(true); }
+      } catch { if (!cancelled) { setLoadError(true); setReady(true); } }
     } else {
       if (!cancelled) { setLoaderData(undefined); setReady(true); }
     }
@@ -163,10 +187,16 @@ export function MockRouter() {
 
   if (cfg.loader && !ready) return null;
 
+  if (loadError) {
+    return <p style={{ padding: 40 }}>Страница не найдена</p>;
+  }
+
   const Component = cfg.component;
   return (
-    <LoaderCtx.Provider value={loaderData}>
-      <Component />
-    </LoaderCtx.Provider>
+    <ErrorBoundary>
+      <LoaderCtx.Provider value={loaderData}>
+        <Component />
+      </LoaderCtx.Provider>
+    </ErrorBoundary>
   );
 }
