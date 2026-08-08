@@ -76,7 +76,7 @@ export function Quiz() {
         <div className="flex flex-col p-6 sm:p-9">
           <span className="inline-flex items-center gap-2 rounded-full bg-sun-soft px-3 py-1.5 text-xs font-bold">
             <Sparkles className="h-3.5 w-3.5" />
-            Мини-подбор за 30 секунд
+            Быстрый подбор за 30 секунд
           </span>
 
           {!results ? (
