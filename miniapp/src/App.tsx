@@ -4,10 +4,11 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { ProductCard } from "@/components/ProductCard";
 import { CartPage } from "@/components/CartPage";
 import { ProfilePage } from "@/components/ProfilePage";
+import { HealthPage } from "@/components/HealthPage";
 import { BottomNav } from "@/components/BottomNav";
 import { products } from "@/data/products";
 
-type Tab = "catalog" | "cart" | "profile";
+type Tab = "catalog" | "health" | "cart" | "profile";
 
 export default function App() {
   const [tab, setTab] = useState<Tab>("catalog");
@@ -19,6 +20,7 @@ export default function App() {
 
         <main>
           {tab === "catalog" && <CatalogPage />}
+          {tab === "health" && <HealthPage />}
           {tab === "cart" && <CartPage />}
           {tab === "profile" && <ProfilePage />}
         </main>

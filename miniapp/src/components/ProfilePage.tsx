@@ -6,9 +6,6 @@ import {
   Edit3,
   Check,
   X,
-  Package,
-  Heart,
-  Shield,
   ChevronRight,
   MapPin,
   Plus,
@@ -200,25 +197,7 @@ export function ProfilePage() {
           </div>
         )}
 
-        {/* Quick actions */}
-        <div className="mb-6 grid grid-cols-3 gap-2">
-          {[
-            { icon: Package, label: "Заказы", color: "bg-sky-soft text-sky" },
-            { icon: Heart, label: "Избранное", color: "bg-coral-soft text-coral" },
-            { icon: Shield, label: "Гарантия", color: "bg-sun-soft text-sun" },
-          ].map((item) => (
-            <button
-              key={item.label}
-              onClick={() => haptic("light")}
-              className="flex flex-col items-center gap-2 rounded-2xl border border-border bg-card p-4 transition-all active:scale-95"
-            >
-              <span className={`flex h-10 w-10 items-center justify-center rounded-xl ${item.color}`}>
-                <item.icon className="h-5 w-5" />
-              </span>
-              <span className="text-xs font-bold">{item.label}</span>
-            </button>
-          ))}
-        </div>
+
 
         {/* Personal data */}
         <div className="space-y-4">
